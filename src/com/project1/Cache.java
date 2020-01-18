@@ -30,6 +30,8 @@ public class Cache<T> {
      * @param object
      */
     public T write(T object) {
+        temp = remove();
+        add(object);
         return temp;
     }
 
@@ -38,7 +40,7 @@ public class Cache<T> {
      * @return
      */
     public T remove() {
-        return null;
+        return (T) list.remove();
     }
 
     /**
