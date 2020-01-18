@@ -1,16 +1,13 @@
 package com.resources;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 @SuppressWarnings("hiding")
-public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Character> {
-	private DLLNode<Character> first; // first node
-	private DLLNode<Character> last; // last node
-	private DLLNode<Character> current; // current node
+public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
+	private DLLNode<T> first; // first node
+	private DLLNode<T> last; // last node
+	private DLLNode<T> current; // current node
 	private int size;
 
 	/**
@@ -25,14 +22,14 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Adds given element to front of list
 	 */
 	@Override
-	public void addToFront(Character element) {
+	public void addToFront(T element) {
 		switch (size) {
 		case 0:
-			last = first = new DLLNode<Character>(element);
+			last = first = new DLLNode<T>(element);
 			size++;
 			return;
 		default:
-			first.setPrevious(new DLLNode<Character>(element));
+			first.setPrevious(new DLLNode<T>(element));
 			first.getPrevious().setNext(first);
 			first = first.getPrevious();
 			size++;
@@ -44,14 +41,14 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Adds given element to rear
 	 */
 	@Override
-	public void addToRear(Character element) {
+	public void addToRear(T element) {
 		switch (size) {
 		case 0:
-			last = first = new DLLNode<Character>(element);
+			last = first = new DLLNode<T>(element);
 			size++;
 			return;
 		default:
-			last.setNext(new DLLNode<Character>(element));
+			last.setNext(new DLLNode<T>(element));
 			last.getNext().setPrevious(last);
 			last = last.getNext();
 			size++;
@@ -63,7 +60,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Adds given element to end of list
 	 */
 	@Override
-	public void add(Character element) {
+	public void add(T element) {
 		addToRear(element);
 	}
 
@@ -71,7 +68,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Adds given element after specified target node
 	 */
 	@Override
-	public void addAfter(Character element, Character target) {
+	public void addAfter(T element, T target) {
 		if (indexOf(target) == -1) {
 			throw new NoSuchElementException("Target element does not exist");
 		}
@@ -82,7 +79,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Adds given element at specified index
 	 */
 	@Override
-	public void add(int index, Character element) {
+	public void add(int index, T element) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -92,7 +89,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 			addToRear(element);
 		} else {
 			current = getNode(index);
-			current.getPrevious().setNext(new DLLNode<Character>(element));
+			current.getPrevious().setNext(new DLLNode<T>(element));
 			current.getPrevious().getNext().setPrevious(current.getPrevious());
 			current.getPrevious().getNext().setNext(current);
 			current.setPrevious(current.getPrevious().getNext());
@@ -104,17 +101,17 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Removes first element in list
 	 */
 	@Override
-	public Character removeFirst() {
+	public T removeFirst() {
 		switch (size) {
 		case 0:
 			throw new NoSuchElementException("List has no elements");
 		case 1:
-			Character temp0 = first.getElement();
+			T temp0 = first.getElement();
 			first = last = null;
 			size--;
 			return temp0;
 		default:
-			Character temp = first.getElement();
+			T temp = first.getElement();
 			first = first.getNext();
 			first.setPrevious(null);
 			size--;
@@ -126,17 +123,17 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Removes last element in list
 	 */
 	@Override
-	public Character removeLast() {
+	public T removeLast() {
 		switch (size) {
 		case 0:
 			throw new NoSuchElementException("List has no elements");
 		case 1:
-			Character temp0 = last.getElement();
+			T temp0 = last.getElement();
 			first = last = null;
 			size--;
 			return temp0;
 		default:
-			Character temp = last.getElement();
+			T temp = last.getElement();
 			last = last.getPrevious();
 			last.setNext(null);
 			size--;
@@ -148,8 +145,8 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Removes specified element
 	 */
 	@Override
-	public Character remove(Character element) {
-		DLLNode<Character> node = getNode(element);
+	public T remove(T element) {
+		DLLNode<T> node = getNode(element);
 		if (node == null) {
 			throw new NoSuchElementException("Element does not exist");
 		}
@@ -169,8 +166,8 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Removes element at given index
 	 */
 	@Override
-	public Character remove(int index) {
-		DLLNode<Character> node = getNode(index);
+	public T remove(int index) {
+		DLLNode<T> node = getNode(index);
 		if (node == null) {
 			throw new IndexOutOfBoundsException("Index is out of bounds");
 		}
@@ -190,19 +187,19 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Sets element at specified index
 	 */
 	@Override
-	public void set(int index, Character element) {
+	public void set(int index, T element) {
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException("Index is out of bounds");
 		}
 		if (index == 0) {
 			if (size == 0) {
-				first = last = new DLLNode<Character>(element);
+				first = last = new DLLNode<T>(element);
 				size++;
 			} else {
 				first.setElement(element);
 			}
 		} else {
-			DLLNode<Character> node = getNode(index);
+			DLLNode<T> node = getNode(index);
 			if (node == null) {
 				throw new IndexOutOfBoundsException("Index is out of bounds");
 			}
@@ -214,7 +211,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Returns element at specified index
 	 */
 	@Override
-	public Character get(int index) {
+	public T get(int index) {
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException("Index is out of bounds");
 		}
@@ -225,7 +222,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Returns index of specified element
 	 */
 	@Override
-	public int indexOf(Character element) {
+	public int indexOf(T element) {
 		current = first;
 		for (int i = 0; i < size; i++) {
 			if (current.getElement() == element) {
@@ -241,7 +238,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Returns first element in list
 	 */
 	@Override
-	public Character first() {
+	public T first() {
 		if (size == 0) {
 			throw new NoSuchElementException("Element does not exist");
 		}
@@ -252,7 +249,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Returns last element in list
 	 */
 	@Override
-	public Character last() {
+	public T last() {
 		if (size == 0) {
 			throw new NoSuchElementException("Element does not exist");
 		}
@@ -263,7 +260,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Returns true if specified target is in list
 	 */
 	@Override
-	public boolean contains(Character target) {
+	public boolean contains(T target) {
 		if (size > 0) {
 			current = first;
 			while (current != null) {
@@ -300,7 +297,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * @param element
 	 * @return
 	 */
-	private DLLNode<Character> getNode(Character element) {
+	private DLLNode<T> getNode(T element) {
 		current = first;
 		for (int i = 0; i < size && size != 0; i++) {
 			if (current.getElement() == element) {
@@ -318,7 +315,7 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * @param index
 	 * @return
 	 */
-	private DLLNode<Character> getNode(int index) {
+	private DLLNode<T> getNode(int index) {
 		if (index < 0 || index >= size) {
 			return null;
 		}
@@ -333,29 +330,29 @@ public class IUDoubleLinkedList<Character> implements IndexedUnsortedList<Charac
 	 * Returns ListIterator objects
 	 */
 	@Override
-	public Iterator<Character> iterator() {
-		return new ListIterator<Character>();
+	public Iterator<T> iterator() {
+		return new ListIterator<T>();
 	}
 
 	/**
 	 * Throws exception
 	 */
 	@Override
-	public java.util.ListIterator<Character> listIterator() {
-		return new ListIterator<Character>();
+	public java.util.ListIterator<T> listIterator() {
+		return new ListIterator<T>();
 	}
 
 	/**
 	 * Throws exception
 	 */
 	@Override
-	public java.util.ListIterator<Character> listIterator(int startingIndex) {
+	public java.util.ListIterator<T> listIterator(int startingIndex) {
 		//throw new UnsupportedOperationException();
 		if (startingIndex < 0 || startingIndex >= size) {
 			throw new IndexOutOfBoundsException("Index is out of bounds");
 		}
 		
-		return new ListIterator<Character>(startingIndex);
+		return new ListIterator<T>(startingIndex);
 	}
 
 	private class ListIterator<Character> implements Iterator<Character>, java.util.ListIterator<Character> {
