@@ -1,7 +1,4 @@
-package com.resources;
-
 import java.util.Iterator;
-import java.util.ListIterator;
 
 /**
  * A double linked list made for Caching

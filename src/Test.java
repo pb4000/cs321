@@ -1,5 +1,3 @@
-package com.project1;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -11,35 +9,6 @@ public class Test {
     public static void main(String[] args) {
         Test t = new Test();
         t.start(args);
-        return;
-        /**Scanner input = new Scanner(System.in);
-        String user;
-        Cache c = new Cache(10);
-        while (true) {
-            System.out.println("Enter a command:");
-            user = input.next();
-            user = Character.toString(user.charAt(0));
-            switch (user) {
-                case "q":
-                    return;
-                case "0":
-                    c.write(0);
-                    break;
-                case "r":
-                    c.remove();
-                    break;
-                case "s":
-                    c.search("i");
-                    break;
-                case "`":
-                    t.start(args);
-                    break;
-                default:
-                    c.addToTop(user);
-                    break;
-            }
-            System.out.println(c.toString());
-        }*/
     }
 
     public Test() {
@@ -71,6 +40,9 @@ public class Test {
                 printUsage();
                 System.exit(1);
             }
+        } else {
+            printUsage();
+            System.exit(1);
         }
         /**
          * Get input file
@@ -93,9 +65,11 @@ public class Test {
     }
 
     public void printCache() {
-        System.out.println("\nCache 1:\n" + c.getCache1().toString());
+        System.out.println("\nCache 1:\n" + c.getCache1().toString() +
+                "\nWith " + c.getC1Hits() + " hits.");
         if (c.getLevel() == 2) {
-            System.out.println("\nCache 2:\n" + c.getCache2().toString());
+            System.out.println("\nCache 2:\n" + c.getCache2().toString() +
+                    "\nWith " + c.getC2Hits() + " hits.");
         }
     }
 

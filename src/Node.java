@@ -1,5 +1,3 @@
-package com.resources;
-
 /**
  * A simple Node class for a singly-linked list
  * @param <T>

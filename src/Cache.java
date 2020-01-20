@@ -1,7 +1,3 @@
-package com.project1;
-
-import com.resources.DoubleLinkedList;
-
 /**
  * Cache implementation using a double linked list
  *
@@ -36,7 +32,6 @@ public class Cache<T> {
      */
     public T search(T object) {
         if (exists(object)) {
-            System.out.println("Hit");
             update();
             return temp;
         } else {
@@ -64,6 +59,7 @@ public class Cache<T> {
      */
     private void update() {
         temp = list.remove();
+        size--;
         if (temp == null) {
             throw new NullPointerException();
         }
