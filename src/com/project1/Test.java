@@ -19,11 +19,21 @@ public class Test {
                 case "r":
                     c.remove();
                     break;
+                case "s":
+                    c.search("i");
+                    break;
+                case "go":
+                    start();
+                    break;
                 default:
-                    c.add(user);
+                    c.addToTop(user);
                     break;
             }
             System.out.println(c.toString());
         }
+    }
+
+    public static void start() {
+
     }
 }

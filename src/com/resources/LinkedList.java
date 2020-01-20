@@ -1,15 +1,18 @@
 package com.resources;
 
+import java.util.Iterator;
+import java.util.ListIterator;
+
 /**
  * A simple singly-linked list
  *
  * @param <T>
  */
-public class LinkedList<T> {
-    private Node<T> head;
-    private Node<T> current;
-    private Node<T> previous;
-    private Node<T> tail;
+public class LinkedList<T> implements Iterable {
+    public Node<T> head;
+    public Node<T> current;
+    public Node<T> previous;
+    public Node<T> tail;
     private T temp;
 
     public LinkedList() {
@@ -33,10 +36,6 @@ public class LinkedList<T> {
     public Node<T> restart() {  // current node is set to the top and returns that node
         previous = null;
         current = head;
-        return current;
-    }
-
-    public Node<T> getCurrent() {   // returns the current node
         return current;
     }
 
@@ -79,5 +78,23 @@ public class LinkedList<T> {
         }
         str += yeet.getObject().toString();
         return str;
+    }
+
+    @Override
+    public java.util.Iterator iterator() {
+        return new Iterator() {
+            private Node<T> selected = head;
+            @Override
+            public boolean hasNext() {
+                return selected.getNext() != null;
+            }
+
+            @Override
+            public Object next() {
+                temp = selected.getObject();
+                selected = selected.getNext();
+                return temp;
+            }
+        };
     }
 }

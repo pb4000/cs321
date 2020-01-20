@@ -7,9 +7,10 @@ import com.resources.Node;
 /**
  * Thing to ask Yeh:
  * - files to turn in
- *      - naming scheme if so?
+ * - naming scheme if so?
  * - how to interact with encyclopedia.txt
- *      - what does Test.java do
+ * - what does Test.java do
+ *
  * @param <T>
  */
 public class Cache<T> {
@@ -24,6 +25,7 @@ public class Cache<T> {
 
     /**
      * Constructor
+     *
      * @param maxSize
      */
     public Cache(int maxSize) {
@@ -33,11 +35,55 @@ public class Cache<T> {
     }
 
     /**
+     * Finds specified object
+     *
+     * @param object
+     * @return
+     */
+    public T search(T object) {
+        if (exists(object)) {
+            System.out.println("Hit");
+            update();
+            return temp;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Adds given object to top of cache
+     *
+     * @param object
+     */
+    public void addToTop(T object) {
+        Node<T> n = new Node<T>(temp, list.head);
+        list.head = n;
+        size++;
+        if (size == 1) {
+            list.tail = list.head;
+        } else if (size == maxSize) {
+            
+        }
+    }
+
+    /**
+     * Updates list, moving the currently selected
+     * object to the top
+     */
+    private void update() {
+        temp = list.current.getObject();
+        list.previous.setNext(list.current.getNext());
+        Node<T> n = new Node<T>(temp, list.head);
+        list.head = n;
+    }
+
+    /**
      * Overwrites the currently selected node
+     *
      * @param object
      */
     public T write(T object) {
-        temp = list.getCurrent().getObject();
+        temp = list.current.getObject();
         list.remove();
         list.add(object);
         return temp;
@@ -45,6 +91,7 @@ public class Cache<T> {
 
     /**
      * Removes the currently selected node
+     *
      * @return
      */
     public T remove() {
@@ -53,6 +100,7 @@ public class Cache<T> {
 
     /**
      * Adds an object after the currently selected node
+     *
      * @param object
      */
     public void add(T object) {
@@ -62,5 +110,24 @@ public class Cache<T> {
     @Override
     public String toString() {
         return list.toString();
+    }
+
+    /**
+     * Cycles through Cache to find a given object. Desired
+     * object is still selected in list after operation
+     *
+     * @param object
+     * @return
+     */
+    public boolean exists(T object) {
+        list.restart();
+        for (int i = 0; i < size; i++) {
+            if (list.current.getObject() == object) {
+                return true;
+            } else {
+                list.next();
+            }
+        }
+        return false;
     }
 }
