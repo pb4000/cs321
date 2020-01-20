@@ -1,14 +1,37 @@
 package com.project1;
 
+/**
+ * Driver to interact with the Cache
+ * @param <T>
+ */
+
 public class CacheDriver<T> {
     private int level;
     private Cache<T> cache1, cache2;
     private int size1, size2;
     private int c1Hits, c2Hits;
 
-    public CacheDriver(int level, int maxSize1) throws IllegalAccessException {
+    public int getLevel() { return level; }
+
+    public Cache<T> getCache1() {
+        return cache1;
+    }
+
+    public Cache<T> getCache2() {
+        return cache2;
+    }
+
+    public int getC1Hits() {
+        return c1Hits;
+    }
+
+    public int getC2Hits() {
+        return c2Hits;
+    }
+
+    public CacheDriver(int level, int maxSize1) throws IllegalArgumentException {
         if (level < 1 || level > 2 || maxSize1 < 1) {
-            throw new IllegalAccessException("Illegal Parameters");
+            throw new IllegalArgumentException("Illegal Parameters");
         }
         this.level = level;
 
@@ -16,9 +39,9 @@ public class CacheDriver<T> {
         c1Hits = c2Hits = 0;
     }
 
-    public CacheDriver(int level, int maxSize1, int maxSize2) throws IllegalAccessException {
+    public CacheDriver(int level, int maxSize1, int maxSize2) throws IllegalArgumentException {
         if (level < 1 || level > 2 || maxSize1 < 1 || maxSize1 < 1) {
-            throw new IllegalAccessException("Illegal parameters");
+            throw new IllegalArgumentException("Illegal parameters");
         }
         this.level = level;
         cache1 = new Cache(maxSize1);
