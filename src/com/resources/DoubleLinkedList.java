@@ -4,18 +4,18 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 /**
- * TODO: Remake into DLL
+ * A double linked list made for Caching
  *
  * @param <T>
  */
-public class LinkedList<T> implements Iterable {
+public class DoubleLinkedList<T> implements Iterable {
     public Node<T> head;
     public Node<T> current;
     public Node<T> previous;
     public Node<T> tail;
     private T temp;
 
-    public LinkedList() {
+    public DoubleLinkedList() {
         head = current = tail = previous = null;
     }
 

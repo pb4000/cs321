@@ -1,11 +1,9 @@
 package com.project1;
 
-import com.resources.IUDoubleLinkedList;
-import com.resources.LinkedList;
-import com.resources.Node;
+import com.resources.DoubleLinkedList;
 
 /**
- * TODO: Remake Cache using DLL
+ * Cache implementation using a double linked list
  *
  * @param <T>
  */
@@ -14,7 +12,7 @@ public class Cache<T> {
     /**
      * General Variables
      */
-    private LinkedList<T> list;    // linked list to be used as cache
+    private DoubleLinkedList<T> list;    // linked list to be used as cache
     private int maxSize;   // maximum size of the cache
     private int size;   // current size of cache
     private T temp;
@@ -27,7 +25,7 @@ public class Cache<T> {
     public Cache(int maxSize) {
         this.maxSize = maxSize;
         size = 0;
-        list = new LinkedList<T>();
+        list = new DoubleLinkedList<T>();
     }
 
     /**
