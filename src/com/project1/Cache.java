@@ -1,6 +1,8 @@
 package com.project1;
 
+import com.resources.IUDoubleLinkedList;
 import com.resources.LinkedList;
+import com.resources.Node;
 
 /**
  * Thing to ask Yeh:
@@ -11,7 +13,11 @@ import com.resources.LinkedList;
  * @param <T>
  */
 public class Cache<T> {
-    private LinkedList list;    // linked list to be used as cache
+
+    /**
+     * General Variables
+     */
+    private LinkedList<T> list;    // linked list to be used as cache
     private int maxSize;   // maximum size of the cache
     private int size;   // current size of cache
     private T temp;
@@ -23,6 +29,7 @@ public class Cache<T> {
     public Cache(int maxSize) {
         this.maxSize = maxSize;
         size = 0;
+        list = new LinkedList<T>();
     }
 
     /**
@@ -30,8 +37,9 @@ public class Cache<T> {
      * @param object
      */
     public T write(T object) {
-        temp = remove();
-        add(object);
+        temp = list.getCurrent().getObject();
+        list.remove();
+        list.add(object);
         return temp;
     }
 
@@ -40,7 +48,7 @@ public class Cache<T> {
      * @return
      */
     public T remove() {
-        return (T) list.remove();
+        return list.remove();
     }
 
     /**
@@ -48,6 +56,11 @@ public class Cache<T> {
      * @param object
      */
     public void add(T object) {
+        list.add(object);
+    }
 
+    @Override
+    public String toString() {
+        return list.toString();
     }
 }

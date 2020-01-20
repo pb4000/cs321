@@ -8,14 +8,23 @@ public class Node<T> {
     private T object;
     private Node<T> next;
 
+    private Node<T> previous;
+
+    public Node(T object, Node next, Node previous) {
+        this.object = object;
+        this.next = next;
+        this.previous = previous;
+    }
+
     public Node(T object, Node next) {
         this.object = object;
         this.next = next;
+        previous = null;
     }
 
     public Node(T object) {
         this.object = object;
-        next = null;
+        next = previous = null;
     }
 
     public Node<T> getNext() {
@@ -32,5 +41,21 @@ public class Node<T> {
 
     public void setObject(T object) {
         this.object = object;
+    }
+
+    public boolean hasNext() {
+        return next != null;
+    }
+
+    public boolean hasPrevious() {
+        return previous != null;
+    }
+
+    public Node<T> getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(Node<T> previous) {
+        this.previous = previous;
     }
 }
