@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 /**
- * A simple singly-linked list
+ * TODO: Remake into DLL
  *
  * @param <T>
  */
@@ -25,7 +25,6 @@ public class LinkedList<T> implements Iterable {
 
     public Node<T> next() { // if has next, sets current node to next and returns that one
         if (hasNext()) {
-            previous = current;
             current = current.getNext();
             return current;
         } else {
@@ -34,38 +33,75 @@ public class LinkedList<T> implements Iterable {
     }
 
     public Node<T> restart() {  // current node is set to the top and returns that node
-        previous = null;
         current = head;
         return current;
     }
 
-    public void add(T object) { // adds a node after the current node and sets the added node as current
-        if (head != null) {
-            previous = current;
-            current = current.getNext();
-            previous.setNext(new Node<T>(object));
-            previous.getNext().setNext(current);
-            current = previous.getNext();
+    public void add(T object) { // adds a node after the current node
+        if (current.getPrevious() != null) {
+            if (current.getNext() != null) {
+                current.setNext(new Node<T>(object, current.getNext(), current));
+                current.getNext().getNext().setPrevious(current.getNext());
+            } else {
+                current.setNext(new Node<T>(object, null, current));
+                tail = current.getNext();
+            }
         } else {
-            head = tail = current = new Node<T>(object);
+            if (current.getNext() != null) {
+                current.setNext(new Node<T>(object, current.getNext(), current));
+            } else {
+                head = tail = current = new Node<T>(object);
+            }
         }
     }
 
-    public T remove() { // removes the currently selected node and returns its value
-        if (head != null) {
-            if (current != head) {
-                previous.setNext(current.getNext());
-                temp = current.getObject();
-                current = previous;
-            } else {
-                head = current.getNext();
-                temp = current.getObject();
-                current = head;
-            }
-            return temp;
+    public void addToFront(T object) {
+        if (head == null) {
+            head = tail = current = new Node<T>(object);
         } else {
+            head.setPrevious(new Node<T>(object, head, null));
+            head = head.getPrevious();
+        }
+    }
+
+    public T removeLast() {
+        if (tail == null) {
             return null;
         }
+        temp = tail.getObject();
+        if (head == tail) {
+            head = tail = current = null;
+        } else {
+            tail = tail.getPrevious();
+            tail.setNext(null);
+        }
+        return temp;
+    }
+
+    public T remove() { // removes the currently selected node and returns its value
+        if (current == null) {
+            return null;
+        }
+        temp = current.getObject();
+        if (current.getPrevious() == null) {
+            if (current.getNext() == null) {
+                head = tail = current = previous = null;
+            } else {
+                current = current.getNext();
+                current.setPrevious(null);
+                head = current;
+            }
+        } else {
+            if (current.getNext() == null) {
+                current.getPrevious().setNext(null);
+                tail = current = current.getPrevious();
+            } else {
+                current.getPrevious().setNext(current.getNext());
+                current.getNext().setPrevious(current.getPrevious());
+                current = current.getPrevious();
+            }
+        }
+        return temp;
     }
 
     @Override
@@ -84,6 +120,7 @@ public class LinkedList<T> implements Iterable {
     public java.util.Iterator iterator() {
         return new Iterator() {
             private Node<T> selected = head;
+
             @Override
             public boolean hasNext() {
                 return selected.getNext() != null;

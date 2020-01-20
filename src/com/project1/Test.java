@@ -10,8 +10,9 @@ public class Test {
         while (true) {
             System.out.println("Enter a command:");
             user = input.next();
+            user = Character.toString(user.charAt(0));
             switch (user) {
-                case "quit":
+                case "q":
                     return;
                 case "0":
                     c.write(0);
@@ -22,7 +23,7 @@ public class Test {
                 case "s":
                     c.search("i");
                     break;
-                case "go":
+                case "`":
                     start();
                     break;
                 default:

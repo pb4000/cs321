@@ -5,11 +5,7 @@ import com.resources.LinkedList;
 import com.resources.Node;
 
 /**
- * Thing to ask Yeh:
- * - files to turn in
- * - naming scheme if so?
- * - how to interact with encyclopedia.txt
- * - what does Test.java do
+ * TODO: Remake Cache using DLL
  *
  * @param <T>
  */
@@ -56,13 +52,11 @@ public class Cache<T> {
      * @param object
      */
     public void addToTop(T object) {
-        Node<T> n = new Node<T>(temp, list.head);
-        list.head = n;
-        size++;
-        if (size == 1) {
-            list.tail = list.head;
-        } else if (size == maxSize) {
-            
+        list.addToFront(object);
+        if (size == maxSize) {
+            list.removeLast();
+        } else {
+            size++;
         }
     }
 
@@ -71,10 +65,11 @@ public class Cache<T> {
      * object to the top
      */
     private void update() {
-        temp = list.current.getObject();
-        list.previous.setNext(list.current.getNext());
-        Node<T> n = new Node<T>(temp, list.head);
-        list.head = n;
+        temp = list.remove();
+        if (temp == null) {
+            throw new NullPointerException();
+        }
+        addToTop(temp);
     }
 
     /**
@@ -95,6 +90,7 @@ public class Cache<T> {
      * @return
      */
     public T remove() {
+        size--;
         return list.remove();
     }
 
@@ -104,6 +100,7 @@ public class Cache<T> {
      * @param object
      */
     public void add(T object) {
+        size++;
         list.add(object);
     }
 
@@ -122,7 +119,7 @@ public class Cache<T> {
     public boolean exists(T object) {
         list.restart();
         for (int i = 0; i < size; i++) {
-            if (list.current.getObject() == object) {
+            if (list.current.getObject().equals(object)) {
                 return true;
             } else {
                 list.next();
