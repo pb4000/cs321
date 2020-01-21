@@ -1,3 +1,5 @@
+package com.project1;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -75,7 +77,7 @@ public class Test {
 
     private static void printUsage() {
         System.out.println("How to use this program:\n" +
-                "java Test <1-2 cache levels> <cache1 max length>" +
-                " <cache2 max length (optional)> <file>");
+                "java <path-to-Test> <1/2-cache-levels> <cache1-max-length>" +
+                " <cache2-max-length-(optional)> <path-to-file>");
     }
 }
