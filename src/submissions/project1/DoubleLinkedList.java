@@ -1,6 +1,4 @@
-package com.project1;
-
-import java.util.Iterator;
+package submissions.project1;
 
 /**
  * A double linked list made for Caching
