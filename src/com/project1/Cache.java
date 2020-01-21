@@ -11,8 +11,8 @@ public class Cache<T> {
      * General Variables
      */
     private DoubleLinkedList<T> list;    // linked list to be used as cache
-    private int maxSize;   // maximum size of the cache
-    private int size;   // current size of cache
+    public int maxSize;   // maximum size of the cache
+    public int size;   // current size of cache
     private T temp;
 
     /**

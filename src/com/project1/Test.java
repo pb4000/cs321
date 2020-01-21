@@ -19,8 +19,47 @@ public class Test {
 
     public void start(String[] args) {
         init(args);
-        cycle();
         printCache();
+        cycle();
+        hitRatios();
+    }
+
+    public void printCache() {
+        System.out.println("First level cache with " + c.getCache1().maxSize + " entries has been created");
+        if (c.getLevel() == 2) {
+            System.out.println("Second level cache with " + c.getCache2().maxSize + " entries has been created");
+        }
+        System.out.println("*******************************************");
+    }
+
+    public void hitRatios() {
+        /**
+         * Global
+         */
+        if (c.getLevel() == 2) {
+            int globalRefs = c.getC1Refs() + c.getC2Refs();
+            int globalHits = c.getC1Hits() + c.getC2Hits();
+            double globalRatio = (double) globalHits / c.getC1Refs();
+            System.out.println("The number of global references: " + c.getC1Refs());
+            System.out.println("The number of global cache hits: " + globalHits);
+            System.out.println("The global hit ratio: " + globalRatio + "\n");
+        }
+        /**
+         * Cache 1
+         */
+        double c1Ratio = (double) c.getC1Hits() / c.getC1Refs();
+        System.out.println("The number of 1st-level references: " + c.getC1Refs());
+        System.out.println("The number of 1st-level cache hits: " + c.getC1Hits());
+        System.out.println("The 1st-level cache hit ratio: " + c1Ratio + "\n");
+        /**
+         * Cache 2
+         */
+        if (c.getLevel() == 2) {
+            double c2Ratio = (double) c.getC2Hits() / c.getC2Refs();
+            System.out.println("The number of 2nd-level references: " + c.getC2Refs());
+            System.out.println("The number of 2nd-level cache hits: " + c.getC2Hits());
+            System.out.println("The 2nd-level cache hit ratio: " + c2Ratio + "\n");
+        }
     }
 
     public void init(String[] args) {
@@ -66,7 +105,7 @@ public class Test {
         }
     }
 
-    public void printCache() {
+    /**public void printCache() {
         System.out.println("\nCache 1:\n" + c.getCache1().toString() +
                 "\nWith " + c.getC1Hits() + " hits.");
         if (c.getLevel() == 2) {
@@ -74,6 +113,7 @@ public class Test {
                     "\nWith " + c.getC2Hits() + " hits.");
         }
     }
+     */
 
     private static void printUsage() {
         System.out.println("How to use this program:\n" +

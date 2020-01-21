@@ -10,6 +10,15 @@ public class CacheDriver<T> {
     private Cache<T> cache1, cache2;
     private int size1, size2;
     private int c1Hits, c2Hits;
+    private int c1Refs, c2Refs;
+
+    public int getC1Refs() {
+        return c1Refs;
+    }
+
+    public int getC2Refs() {
+        return c2Refs;
+    }
 
     public int getLevel() { return level; }
 
@@ -36,7 +45,7 @@ public class CacheDriver<T> {
         this.level = level;
 
         cache1 = new Cache(maxSize1);
-        c1Hits = c2Hits = 0;
+        c1Hits = c2Hits = c1Refs = c2Refs = 0;
     }
 
     public CacheDriver(int level, int maxSize1, int maxSize2) throws IllegalArgumentException {
@@ -46,7 +55,7 @@ public class CacheDriver<T> {
         this.level = level;
         cache1 = new Cache(maxSize1);
         cache2 = new Cache(maxSize2);
-        c1Hits = c2Hits = 0;
+        c1Hits = c2Hits = c1Refs = c2Refs = 0;
     }
 
     /**
@@ -56,6 +65,7 @@ public class CacheDriver<T> {
      * @return
      */
     public void search(T object) {
+        c1Refs++;
         if (cache1.search(object) != null) {    // searches for specified object and brings it to top of cache
             c1Hits++;
             if (level == 2) {
@@ -65,10 +75,13 @@ public class CacheDriver<T> {
         } else {
             cache1.addToTop(object);
         }
-        if (level == 2 && cache2.search(object) != null) {
-            c2Hits++;
-        } else {
-            cache2.addToTop(object);
+        if (level == 2) {
+            c2Refs++;
+            if (cache2.search(object) != null) {
+                c2Hits++;
+            } else {
+                cache2.addToTop(object);
+            }
         }
     }
 }
